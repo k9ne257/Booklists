@@ -61,18 +61,6 @@
                     android:textSize="12sp"
                     tools:text="Jan Tittel, Jochen Baumann"/>
 
-                <TextView
-                    android:id="@+id/tv_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="12sp"
-                    tools:text="EUR 19.99"/>
-
-
             </LinearLayout>
 
             <LinearLayout

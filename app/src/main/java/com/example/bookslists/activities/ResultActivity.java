@@ -2,25 +2,59 @@ package com.example.bookslists.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.bookslists.R;
 import com.example.bookslists.models.Volume;
 import com.example.bookslists.models.VolumeAdapter;
+import com.example.bookslists.utilites.QueryUtils;
+import com.example.bookslists.utilites.VolumeLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Volume>>{
 
-    private static ArrayList<Volume> volumes;
     private VolumeAdapter adapter;
+    private static String request = "https://www.googleapis.com/books/v1/volumes?q=android&maxResults=10";
+    private static final int VOLUME_LOADER_ID = 1;
+    private TextView mEmptyStateTextView;
 
+    @Override
+    public Loader<List<Volume>> onCreateLoader(int i, Bundle bundle) {
+        return new VolumeLoader(this, request);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Volume>> loader, List<Volume> earthquakes) {
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
+
+        mEmptyStateTextView.setText(R.string.no_volumes);
+
+        // Clear the adapter of previous earthquake data
+        adapter.clear();
+
+        // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
+        // data set. This will trigger the ListView to update.
+        if (earthquakes != null && !earthquakes.isEmpty()) {
+            adapter.addAll(earthquakes);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Volume>> loader) {
+        // Loader reset, so we can clear out our existing data.
+        adapter.clear();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +63,7 @@ public class ResultActivity extends AppCompatActivity {
 
         ListView volumeListView = (ListView) findViewById(R.id.list);
 
-        volumes = new ArrayList<Volume>();
-
-        volumes.add(new Volume("Max Mustermann", "Book Printing GmbH", "07-07-2007", "Das Geile Buch", "https://www.youtube.com/watch?v=vsypFJ5mNw0", "9783446433151", "http://books.google.com/books/content?id=FLBPAgAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE71cU0KH06z9ilG7YQHrPbfbOvmazBHYUyHoyzp_ELFCT94QPjLmdFyc22s8OcYdA7TmJoYbv0NmxiZJk1ZGNr_hqMcPwzEHIuV6UTdzZ7dAmMkLJ3ZP89ZefiECbxWlQ_E1z43K&source=gbs_api", "19.99"));
-        volumes.add(new Volume("Max Mustermann", "Book Printing GmbH", "07-07-2007", "Das Geile Buch", "https://www.youtube.com/watch?v=vsypFJ5mNw0", "9783446433151", "http://books.google.com/books/content?id=FLBPAgAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE71cU0KH06z9ilG7YQHrPbfbOvmazBHYUyHoyzp_ELFCT94QPjLmdFyc22s8OcYdA7TmJoYbv0NmxiZJk1ZGNr_hqMcPwzEHIuV6UTdzZ7dAmMkLJ3ZP89ZefiECbxWlQ_E1z43K&source=gbs_api", "19.99"));
-        volumes.add(new Volume("Max Mustermann", "Book Printing GmbH", "07-07-2007", "Das Geile Buch", "https://www.youtube.com/watch?v=vsypFJ5mNw0", "9783446433151", "http://books.google.com/books/content?id=FLBPAgAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE71cU0KH06z9ilG7YQHrPbfbOvmazBHYUyHoyzp_ELFCT94QPjLmdFyc22s8OcYdA7TmJoYbv0NmxiZJk1ZGNr_hqMcPwzEHIuV6UTdzZ7dAmMkLJ3ZP89ZefiECbxWlQ_E1z43K&source=gbs_api", "19.99"));
-        volumes.add(new Volume("Max Mustermann", "Book Printing GmbH", "07-07-2007", "Das Geile Buch", "", "9783446433151", "http://books.google.com/books/content?id=FLBPAgAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE71cU0KH06z9ilG7YQHrPbfbOvmazBHYUyHoyzp_ELFCT94QPjLmdFyc22s8OcYdA7TmJoYbv0NmxiZJk1ZGNr_hqMcPwzEHIuV6UTdzZ7dAmMkLJ3ZP89ZefiECbxWlQ_E1z43K&source=gbs_api", "19.99"));
-        volumes.add(new Volume("Max Mustermann", "Book Printing GmbH", "07-07-2007", "Das Geile Buch", "", "9783446433151", "http://books.google.com/books/content?id=FLBPAgAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE71cU0KH06z9ilG7YQHrPbfbOvmazBHYUyHoyzp_ELFCT94QPjLmdFyc22s8OcYdA7TmJoYbv0NmxiZJk1ZGNr_hqMcPwzEHIuV6UTdzZ7dAmMkLJ3ZP89ZefiECbxWlQ_E1z43K&source=gbs_api", "19.99"));
-        volumes.add(new Volume("Max Mustermann", "Book Printing GmbH", "07-07-2007", "Das Geile Buch", "", "9783446433151", "http://books.google.com/books/content?id=FLBPAgAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE71cU0KH06z9ilG7YQHrPbfbOvmazBHYUyHoyzp_ELFCT94QPjLmdFyc22s8OcYdA7TmJoYbv0NmxiZJk1ZGNr_hqMcPwzEHIuV6UTdzZ7dAmMkLJ3ZP89ZefiECbxWlQ_E1z43K&source=gbs_api", "19.99"));
-        volumes.add(new Volume("Max Mustermann", "Book Printing GmbH", "07-07-2007", "Das Geile Buch", "", "9783446433151", "http://books.google.com/books/content?id=FLBPAgAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE71cU0KH06z9ilG7YQHrPbfbOvmazBHYUyHoyzp_ELFCT94QPjLmdFyc22s8OcYdA7TmJoYbv0NmxiZJk1ZGNr_hqMcPwzEHIuV6UTdzZ7dAmMkLJ3ZP89ZefiECbxWlQ_E1z43K&source=gbs_api", "19.99"));
-        volumes.add(new Volume("Max Mustermann", "Book Printing GmbH", "07-07-2007", "Das Geile Buch", "", "9783446433151", "http://books.google.com/books/content?id=FLBPAgAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE71cU0KH06z9ilG7YQHrPbfbOvmazBHYUyHoyzp_ELFCT94QPjLmdFyc22s8OcYdA7TmJoYbv0NmxiZJk1ZGNr_hqMcPwzEHIuV6UTdzZ7dAmMkLJ3ZP89ZefiECbxWlQ_E1z43K&source=gbs_api", "19.99"));
-        volumes.add(new Volume("Max Mustermann", "Book Printing GmbH", "07-07-2007", "Das Geile Buch", "", "9783446433151", "http://books.google.com/books/content?id=FLBPAgAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE71cU0KH06z9ilG7YQHrPbfbOvmazBHYUyHoyzp_ELFCT94QPjLmdFyc22s8OcYdA7TmJoYbv0NmxiZJk1ZGNr_hqMcPwzEHIuV6UTdzZ7dAmMkLJ3ZP89ZefiECbxWlQ_E1z43K&source=gbs_api", "19.99"));
-        volumes.add(new Volume("Max Mustermann", "Book Printing GmbH", "07-07-2007", "Das Geile Buch", "", "9783446433151", "http://books.google.com/books/content?id=FLBPAgAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE71cU0KH06z9ilG7YQHrPbfbOvmazBHYUyHoyzp_ELFCT94QPjLmdFyc22s8OcYdA7TmJoYbv0NmxiZJk1ZGNr_hqMcPwzEHIuV6UTdzZ7dAmMkLJ3ZP89ZefiECbxWlQ_E1z43K&source=gbs_api", "19.99"));
-
-        adapter = new VolumeAdapter(this, volumes);
+        adapter = new VolumeAdapter(this, new ArrayList<Volume>());
         volumeListView.setAdapter(adapter);
 
         volumeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,6 +82,12 @@ public class ResultActivity extends AppCompatActivity {
                 startActivity(websiteIntent);
             }
         });
+
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        volumeListView.setEmptyView(mEmptyStateTextView);
+
+        LoaderManager loaderManager = getLoaderManager();
+        loaderManager.initLoader(VOLUME_LOADER_ID, null, this);
 
 
     }

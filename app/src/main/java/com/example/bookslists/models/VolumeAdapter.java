@@ -11,10 +11,11 @@ import android.widget.TextView;
 import com.example.bookslists.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class VolumeAdapter extends ArrayAdapter<Volume> {
 
-    public VolumeAdapter(Context context, ArrayList<Volume> volumes) {
+    public VolumeAdapter(Context context, List<Volume> volumes) {
         super(context, 0, volumes);
     }
 
@@ -34,9 +35,6 @@ public class VolumeAdapter extends ArrayAdapter<Volume> {
 
         TextView authorTextView = (TextView) listItemView.findViewById(R.id.tv_author);
         authorTextView.setText(currentVolume.getAuthoren());
-
-        TextView priceTextView = (TextView) listItemView.findViewById(R.id.tv_price);
-        priceTextView.setText(currentVolume.getPrice());
 
         TextView publisherTextView = (TextView) listItemView.findViewById(R.id.tv_publisher);
         publisherTextView.setText(currentVolume.getPublisher());

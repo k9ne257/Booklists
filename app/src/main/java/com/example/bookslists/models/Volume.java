@@ -1,9 +1,9 @@
 package com.example.bookslists.models;
 
 public class Volume {
-    private String authoren, publisher, publishDate, title, link, isbn, imageURL, price;
+    private String authoren, publisher, publishDate, title, link, isbn, imageURL;
 
-    public Volume(String authoren, String publisher, String publishDate, String title, String link, String isbn, String imageURL, String price) {
+    public Volume(String authoren, String publisher, String publishDate, String title, String link, String isbn, String imageURL) {
         this.authoren = authoren;
         this.publisher = publisher;
         this.publishDate = publishDate;
@@ -11,7 +11,6 @@ public class Volume {
         this.link = link;
         this.isbn = isbn;
         this.imageURL = imageURL;
-        this.price = price;
     }
 
     public String getAuthoren() {
@@ -37,11 +36,6 @@ public class Volume {
     public String getIsbn() {
         return isbn;
     }
-
-    public String getPrice() {
-        return price;
-    }
-
 
     public String getImageURL() {
         return imageURL;
