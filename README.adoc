@@ -1,0 +1,24 @@
+"# bookLists" 
+= Project Overview
+
+This project is a chance for me to combine and practice everything I learned in the Udacity Nanodegree program. I will be making an app that lists books.
+
+The goal is to design and create the structure of a Book Listing app which would allow a user to get a list of published books on a given topic. I will be using the google books api in order to fetch results and display them to the user.
+
+== Why this project?
+
+This project gives you the ability to practice how to get data from an api, how to parse that data and display it to a user, which will be key in developing any app which makes use of a backend server, real time data, or interactions over the internet.
+
+This project is about combining various ideas and skills we’ve been practicing throughout the course. They include:
+
+- Fetching data from an API
+- Using an AsyncTask
+- Parsing a JSON response
+- Creating a list based on that data and displaying it to the user.
+
+== Google API
+
+link (Documentation):
+
+https://developers.google.com/books/docs/v1/using
+https://cloud.google.com/docs/authentication/api-keys?visit_id=637344664275571520-1944887331&rd=1
