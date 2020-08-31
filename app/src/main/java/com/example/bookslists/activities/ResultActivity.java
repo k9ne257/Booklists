@@ -23,8 +23,9 @@ import java.util.List;
 
 public class ResultActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Volume>>{
 
+    static String searchKey;
     private VolumeAdapter adapter;
-    private static String request = "https://www.googleapis.com/books/v1/volumes?q=android&maxResults=10";
+    private static String request;
     private static final int VOLUME_LOADER_ID = 1;
     private TextView mEmptyStateTextView;
 
@@ -60,6 +61,10 @@ public class ResultActivity extends AppCompatActivity implements LoaderManager.L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+        Intent i = getIntent();
+        searchKey = i.getStringExtra("key");
+        request = "https://www.googleapis.com/books/v1/volumes?q=" + searchKey;
 
         ListView volumeListView = (ListView) findViewById(R.id.list);
 
